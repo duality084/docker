@@ -52,18 +52,36 @@ RUN chown odoo /etc/odoo/odoo.conf
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons \
         && chown -R odoo /mnt/extra-addons
-VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
+
 
 #Install Arg LOC.
-COPY ./* /mnt/extra-addons
 RUN set -x; \
-        pip3 install wheel \
+        wget https://github.com/ingadhoc/odoo-argentina/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-odoo-argentina.zip \
+        && wget https://github.com/ingadhoc/account-financial-tools/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-account-financial-tools.zip \
+        && wget https://github.com/ingadhoc/account-payment/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-account-payment.zip \
+        && wget https://github.com/ingadhoc/aeroo_reports/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-aeroo_reports.zip \
+        && wget https://github.com/ingadhoc/miscellaneous/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-miscellaneous.zip \
+        && wget https://github.com/ingadhoc/argentina-reporting/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-argentina-reporting.zip \
+        && wget https://github.com/ingadhoc/reporting-engine/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-reporting-engine.zip \
+        && wget https://github.com/ingadhoc/argentina-sale/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-argentina-sale.zip \
+        && wget https://github.com/ingadhoc/stock/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-stock.zip \
+        && wget https://apps.odoo.com/loempia/download/partner_identification/11.0.1.0.0/4gXzqj52wzlBc64roBAw7v.zip -O /mnt/extra-addons/partner_identification.zip \
+        && unzip /mnt/extra-addons/partner_identification.zip \
+        && unzip /mnt/extra-addons/ingadhoc-odoo-argentina.zip \
+        && unzip /mnt/extra-addons/ingadhoc-account-financial-tools.zip \
+        && unzip /mnt/extra-addons/ingadhoc-account-payment.zip \
+        && unzip /mnt/extra-addons/ingadhoc-aeroo_reports.zip \
+        && unzip /mnt/extra-addons/ingadhoc-miscellaneous.zip \
+        && unzip /mnt/extra-addons/ingadhoc-argentina-reporting.zip \
+        && unzip /mnt/extra-addons/ingadhoc-reporting-engine.zip \
+        && unzip /mnt/extra-addons/ingadhoc-argentina-sale.zip \
+        && unzip /mnt/extra-addons/ingadhoc-stock.zip \
+        && rm /mnt/extra-addons/*.zip \
+        && pip3 install wheel \
         && chown -R odoo:odoo /mnt/extra-addons/ \
         && chmod -R 775 /mnt/extra-addons/ \
-        && cd /mnt/extra-addons/odoo-argentina-11.0 \
-        && pip3 install -r requirements.txt \
-        && cd /mnt/extra-addons/aeroo_reports-11.0 \
-        && pip3 install -r requirements.txt \
+        && pip3 install -r /mnt/extra-addons/odoo-argentina-11/requirements.txt \
+        && pip3 install -r /mnt/extra-addons/aeroo_reports/requirements.txt \
         && apt-get install default-jre -y \
         && apt-get install python3-setuptools python3-uno \
         && apt-get install python3-lxml -y \
@@ -87,7 +105,7 @@ RUN set -x; \
         
 
 
-
+VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
 # Expose Odoo services
 EXPOSE 8069 8071
 
