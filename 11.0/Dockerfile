@@ -80,8 +80,10 @@ RUN set -x; \
         && pip3 install wheel \
         && chown -R odoo:odoo /mnt/extra-addons/ \
         && chmod -R 775 /mnt/extra-addons/ \
-        && pip3 install -r /mnt/extra-addons/odoo-argentina-11.0/requirements.txt \
-        && pip3 install -r /mnt/extra-addons/aeroo_reports-11.0/requirements.txt \
+        && cd /mnt/extra-addons/odoo-argentina-11.0 \
+        && pip3 install -r requirements.txt \
+        && cd /mnt/extra-addons/aeroo_reports-11.0 \
+        && pip3 install -r requirements.txt \
         && apt-get install default-jre -y \
         && apt-get install python3-setuptools python3-uno \
         && apt-get install python3-lxml -y \
