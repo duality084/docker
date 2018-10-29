@@ -55,29 +55,9 @@ RUN mkdir -p /mnt/extra-addons \
 VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
 
 #Install Arg LOC.
+COPY ./* /mnt/extra-addons
 RUN set -x; \
-        wget https://github.com/ingadhoc/odoo-argentina/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-odoo-argentina.zip \
-        && wget https://github.com/ingadhoc/account-financial-tools/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-account-financial-tools.zip \
-        && wget https://github.com/ingadhoc/account-payment/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-account-payment.zip \
-        && wget https://github.com/ingadhoc/aeroo_reports/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-aeroo_reports.zip \
-        && wget https://github.com/ingadhoc/miscellaneous/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-miscellaneous.zip \
-        && wget https://github.com/ingadhoc/argentina-reporting/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-argentina-reporting.zip \
-        && wget https://github.com/ingadhoc/reporting-engine/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-reporting-engine.zip \
-        && wget https://github.com/ingadhoc/argentina-sale/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-argentina-sale.zip \
-        && wget https://github.com/ingadhoc/stock/archive/11.0.zip -O /mnt/extra-addons/ingadhoc-stock.zip \
-        && wget https://apps.odoo.com/loempia/download/partner_identification/11.0.1.0.0/4gXzqj52wzlBc64roBAw7v.zip -O /mnt/extra-addons/partner_identification.zip \
-        && unzip /mnt/extra-addons/partner_identification.zip \
-        && unzip /mnt/extra-addons/ingadhoc-odoo-argentina.zip \
-        && unzip /mnt/extra-addons/ingadhoc-account-financial-tools.zip \
-        && unzip /mnt/extra-addons/ingadhoc-account-payment.zip \
-        && unzip /mnt/extra-addons/ingadhoc-aeroo_reports.zip \
-        && unzip /mnt/extra-addons/ingadhoc-miscellaneous.zip \
-        && unzip /mnt/extra-addons/ingadhoc-argentina-reporting.zip \
-        && unzip /mnt/extra-addons/ingadhoc-reporting-engine.zip \
-        && unzip /mnt/extra-addons/ingadhoc-argentina-sale.zip \
-        && unzip /mnt/extra-addons/ingadhoc-stock.zip \
-        && rm /mnt/extra-addons/*.zip \
-        && pip3 install wheel \
+        pip3 install wheel \
         && chown -R odoo:odoo /mnt/extra-addons/ \
         && chmod -R 775 /mnt/extra-addons/ \
         && cd /mnt/extra-addons/odoo-argentina-11.0 \
